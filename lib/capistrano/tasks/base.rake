@@ -23,8 +23,17 @@ end
 namespace :runit do
   task :setup_application_server do
     on roles :all do
+      daemon_name = "rails-#{fetch :server_port}-#{fetch :domain}-#{fetch :application}"
+      runit_dir = "#{fetch :home}/etc/sv/#{daemon_name}"
+
+      if test("[ -e #{runit_dir} ]")
+        info("runit ready @ #{runit_dir}")
+        next
+      end
+
       daemon_script = <<-EOF
 #!/bin/bash -e
+exec 2>&1
 export HOME=#{fetch :home}
 source $HOME/.bashrc
 cd #{fetch :deploy_to}/current
@@ -36,13 +45,13 @@ exec bundle exec #{fetch :application_server} start -p #{fetch :server_port} -e 
 exec svlogd -tt ./main
     EOF
     
-      execute                 "mkdir -p #{fetch :home}/etc/sv/run-rails-#{fetch :server_port}-#{fetch :domain}-#{fetch :application}"
-      execute                 "mkdir -p #{fetch :home}/etc/sv/run-rails-#{fetch :server_port}-#{fetch :domain}-#{fetch :application}/log/main"
-      upload! StringIO.new(daemon_script),  "#{fetch :home}/etc/sv/run-rails-#{fetch :server_port}-#{fetch :domain}-#{fetch :application}/run"
-      upload! StringIO.new(log_script),     "#{fetch :home}/etc/sv/run-rails-#{fetch :server_port}-#{fetch :domain}-#{fetch :application}/log/run"
-      execute                 "chmod +x #{fetch :home}/etc/sv/run-rails-#{fetch :server_port}-#{fetch :domain}-#{fetch :application}/run"
-      execute                 "chmod +x #{fetch :home}/etc/sv/run-rails-#{fetch :server_port}-#{fetch :domain}-#{fetch :application}/log/run"
-      execute                 "ln -nfs #{fetch :home}/etc/sv/run-rails-#{fetch :server_port}-#{fetch :domain}-#{fetch :application} ~/etc/service/rails-#{fetch :server_port}-#{fetch :domain}-#{fetch :application}"
+      execute                 "mkdir -p #{runit_dir}"
+      execute                 "mkdir -p #{runit_dir}/log/main"
+      upload! StringIO.new(daemon_script),  "#{runit_dir}/run"
+      upload! StringIO.new(log_script),     "#{runit_dir}/log/run"
+      execute                 "chmod +x #{runit_dir}/run"
+      execute                 "chmod +x #{runit_dir}/log/run"
+      execute                 "ln -nfs #{runit_dir} ~/etc/service/#{daemon_name}"
     end
   end
   

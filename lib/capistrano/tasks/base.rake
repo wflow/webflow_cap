@@ -4,6 +4,7 @@ namespace :load do
     set :application_server,    fetch(:application_server, "puma")
     set :branch,                fetch(:branch, "master")
     set :scm,                   fetch(:scm, :git)
+    set :ruby_version,          fetch(:ruby_version, "2.1")
 
     # variables without default values
     set :deploy_via, :remote_cache
@@ -15,7 +16,7 @@ namespace :load do
     set :server_port,           -> { 10000 + ((fetch :user)[3..6] + "0").to_i }
     
     set :default_env, {
-      'PATH' => "PATH=/docs/#{fetch :user}/.gem/ruby/2.1.5/bin:/opt/ruby/2.1.5/bin:$PATH"
+      'PATH' => "PATH=/docs/#{fetch :user}/.gem/ruby/#{fetch :ruby_version}/bin:/opt/ruby/#{fetch :ruby_version}/bin:$PATH"
     }
   end
 end

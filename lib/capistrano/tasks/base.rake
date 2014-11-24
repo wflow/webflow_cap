@@ -66,7 +66,7 @@ namespace :htaccess do
   task :create do
     on roles :all do
       if test("[ -e #{shared_path}/.htaccess ]")
-        warn "[skip] .htaccess already exists"
+        info "[skip] .htaccess already exists"
       elsif fetch(:password_protected)
         ask(:htaccess_user, fetch(:user))
         ask(:htaccess_pass, nil)

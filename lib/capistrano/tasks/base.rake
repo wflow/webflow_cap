@@ -95,11 +95,17 @@ end
 namespace :apache do
   task :setup_reverse_proxy do
     on roles :all do
+      path = "#{fetch :home}/#{fetch :domain}/htdocs"
+
+      if test("[ -e #{path} ]")
+        info "reverse proxy configured @ #{path}/.htaccess"
+        next
+      end
+
       htaccess = <<-EOF
 RewriteEngine On
 RewriteRule ^(.*)$ http://localhost:#{fetch :server_port}/$1 [P]
     EOF
-      path =              "#{fetch :home}/#{fetch :domain}"
       execute                 "mkdir -p #{path}"
       upload! StringIO.new(htaccess),       "#{path}/.htaccess"
       execute                 "chmod +r #{path}/.htaccess"

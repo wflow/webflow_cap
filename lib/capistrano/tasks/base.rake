@@ -41,7 +41,7 @@ export HOME=#{fetch :home}
 export PATH=#{fetch(:default_env)['PATH']}
 source $HOME/.bashrc
 cd #{fetch :deploy_to}/current
-exec bundle exec #{fetch :application_server} start -p #{fetch :server_port} -e production 2>&1
+exec bundle exec #{fetch :application_server} -p #{fetch :server_port} -e production 2>&1
     EOF
     
       log_script = <<-EOF

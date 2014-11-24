@@ -81,7 +81,7 @@ Require valid-user
   
   task :remove do
     on roles :all do
-      if ("[ -e #{shared_path}/.htaccess ]")
+      if test("[ -e #{shared_path}/.htaccess ]")
         execute "rm -f #{shared_path}/.htaccess"
         execute "rm -f #{shared_path}/.htpasswd"
         execute "rm -f #{current_path}/.htaccess"
@@ -106,9 +106,9 @@ namespace :apache do
 RewriteEngine On
 RewriteRule ^(.*)$ http://localhost:#{fetch :server_port}/$1 [P]
     EOF
-      execute                 "mkdir -p #{path}"
-      upload! StringIO.new(htaccess),       "#{path}/.htaccess"
-      execute                 "chmod +r #{path}/.htaccess"
+      execute "mkdir -p #{path}"
+      upload! StringIO.new(htaccess), "#{path}/.htaccess"
+      execute "chmod +r #{path}/.htaccess"
     end
   end
   

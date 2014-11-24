@@ -15,7 +15,7 @@ namespace :load do
     set :server_port,           -> { 10000 + ((fetch :user)[3..6] + "0").to_i }
     
     set :default_env, {
-      'PATH' => "PATH=/docs/#{fetch :user}/.gem/ruby/2.1.5/bin:/opt/ruby/2.1.5/bin:$PATH"
+      'PATH' => "/docs/#{fetch :user}/.gem/ruby/2.1.5/bin:/opt/ruby/2.1.5/bin:$PATH"
     }
   end
 end

@@ -18,6 +18,8 @@ namespace :load do
     set :default_env, {
       'PATH' => "/docs/#{fetch :user}/.gem/ruby/#{fetch :ruby_version}/bin:/opt/ruby/#{fetch :ruby_version}/bin:$PATH"
     }
+
+    set :runit_service_dir, -> {"#{fetch :home}/etc/service/rails-#{fetch :server_port}-#{fetch :domain}-#{fetch :application}"}
   end
 end
 
@@ -36,6 +38,7 @@ namespace :runit do
 #!/bin/bash -e
 exec 2>&1
 export HOME=#{fetch :home}
+export PATH=#{fetch(:default_env)['PATH']}
 source $HOME/.bashrc
 cd #{fetch :deploy_to}/current
 exec bundle exec #{fetch :application_server} start -p #{fetch :server_port} -e production -d 2>&1
@@ -52,7 +55,7 @@ exec svlogd -tt ./main
       upload! StringIO.new(log_script),     "#{runit_dir}/log/run"
       execute                 "chmod +x #{runit_dir}/run"
       execute                 "chmod +x #{runit_dir}/log/run"
-      execute                 "ln -nfs #{runit_dir} ~/etc/service/#{daemon_name}"
+      execute                 "ln -nfs #{runit_dir} #{fetch :runit_service_dir}"
     end
   end
   
@@ -119,17 +122,23 @@ end
 namespace :deploy do
   task :start do
     on roles :all do
-      execute "sv start #{fetch :home}/etc/service/rails-#{fetch :server_port}-#{fetch :domain}-#{fetch :application}"
+      execute "sv start #{fetch :runit_service_dir}"
     end
   end
   task :stop do
     on roles :all do
-      execute "sv stop #{fetch :home}/service/rails-#{fetch :server_port}-#{fetch :domain}-#{fetch :application}"
+      execute "sv stop #{fetch :runit_service_dir}"
     end
   end
   task :restart do
     on roles :all do
-      execute "sv restart #{fetch :home}/service/rails-#{fetch :server_port}-#{fetch :domain}-#{fetch :application}"
+      execute "sv restart #{fetch :runit_service_dir}"
+    end
+  end
+
+  task :status do
+    on roles :all do
+      execute "sv status #{fetch :runit_service_dir}"
     end
   end
 

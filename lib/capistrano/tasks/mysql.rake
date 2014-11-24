@@ -24,8 +24,8 @@ namespace :mysql do
         execute "mysql -e 'CREATE DATABASE IF NOT EXISTS #{config[env]['database']} CHARACTER SET utf8 COLLATE utf8_general_ci;'"
       end
 
-      execute "mkdir -p #{:shared_path}/config"
-      upload! StringIO.new(config.to_yaml), "#{:shared_path}/config/database.yml"
+      execute "mkdir -p #{shared_path}/config"
+      upload! StringIO.new(config.to_yaml), "#{shared_path}/config/database.yml"
     end
   end
   

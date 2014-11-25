@@ -2,6 +2,7 @@ require 'erb'
 require 'pathname'
 
 namespace :webflow do
+  desc "Install webflow flavoured capistrano files"
   task :install do
     on roles :all do    
       envs = ENV['STAGES'] || 'staging,production'

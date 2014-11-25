@@ -1,14 +1,11 @@
 # set user to the username from webflow e.g. f999999
-set :user, 'f999999'
+set :user, "<%= @user %>"
 
 # set domain to the domain which should be used e.g. example.com or dev.example.com
-set :domain, 'dev.example.com'
+set :domain, "<%= @domain %>"
 
 # set password_protected to true in production or staging to protect the page with htaccess
 # set :password_protected, true
 
-# use ruby_version to set a specific ruby version
-set :ruby_version, "2.1.5"
-
 # set the servername to the servername or ipaddress from webflow e.g. server.example.com or 192.168.0.1
-server 'server.example.com', user: fetch(:user), roles: %w(:web :app :db), primary: true
+server "<%= @server %>", user: fetch(:user), roles: %w(:web :app :db), primary: true

@@ -3,7 +3,23 @@ require 'pathname'
 
 namespace :webflow do
   task :install do
-    on roles :all do    
+    on roles :all do
+      set :application, ask("Application name", "APP")
+      set :ruby_version, ask("Ruby version", "2.1.5")
+      set :repo_url, ask("Repository URL", nil)
+      set :user, ask("Username", "f999999")
+      set :domain, ask("Domain", "example.com")
+      set :server, ask("Server", "server.example.com")
+      set :password_protect, ask("Password protected", false)
+
+      @application = fetch(:application)
+      @ruby_version = fetch(:ruby_version)
+      @repo_url = fetch(:repo_url)
+      @user = fetch(:user)
+      @domain = fetch(:domain)
+      @server = fetch(:server)
+      @password_protect = fetch(:password_protect)
+            
       envs = ENV['STAGES'] || 'staging,production'
     
       tasks_dir = Pathname.new('lib/capistrano/tasks')
@@ -18,11 +34,9 @@ namespace :webflow do
     
       entries = [{template: deploy_rb, file: config_dir.join('deploy.rb')}]
       entries += envs.split(',').map { |stage| {template: stage_rb, file: deploy_dir.join("#{stage}.rb")} }
-
-      ask(:htaccess_pass, nil)
     
       entries.each do |entry|
-        if File.exists?(entry[:file])
+        if test("[ -e #{entry[:file]} ]")
           warn "[skip] #{entry[:file]} already exists"
         else
           File.open(entry[:file], 'w+') do |f|

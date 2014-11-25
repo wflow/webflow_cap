@@ -2,10 +2,10 @@
 lock '<%= Capistrano::VERSION %>'
 
 # set the application name to what ever you want. It is used for the folder name which contains the application
-set :application, 'example'
+set :application, "<%= @application %>"
 
 # set the repository url to repo_url
-set :repo_url, 'https://github.com/example/example.git'
+set :repo_url, "<%= @repo_url %>"
 
 # use ruby_version to set a specific ruby version
-# set :ruby_version, '2.1.5'
+# set :ruby_version, "<%= @ruby_version %>"

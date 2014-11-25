@@ -7,7 +7,9 @@ end
 namespace :rails do
   task :versions do
     on roles :all do
-      execute "ls /opt/ruby/"
+      within '/opt/ruby' do
+        execute(:ls)
+      end
     end
   end
   

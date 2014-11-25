@@ -5,6 +5,12 @@ namespace :load do
 end
 
 namespace :rails do
+  task :versions do
+    on roles :all do
+      execute "ls /opt/ruby/"
+    end
+  end
+  
   task :setup_application_server do
     on roles :all do
       daemon_name = "rails-#{fetch :server_port}-#{fetch :domain}-#{fetch :application}"

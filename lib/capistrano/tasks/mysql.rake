@@ -26,6 +26,8 @@ namespace :mysql do
 
       execute "mkdir -p #{shared_path}/config"
       upload! StringIO.new(config.to_yaml), "#{shared_path}/config/database.yml"
+      
+      set :linked_files, fetch(:linked_files).push("config/database.yml")
     end
   end
   

@@ -15,6 +15,8 @@ namespace :load do
     set :deploy_to,             -> { "/docs/#{fetch :user}/#{fetch :domain}/#{fetch :application}" }
     set :server_port,           -> { 10000 + ((fetch :user)[3..6] + "0").to_i }
     
+    set :linked_files, %w{}
+    
     set :default_env, -> {
       {'PATH' => "/docs/#{fetch :user}/.gem/ruby/#{fetch :ruby_version}/bin:/opt/ruby/#{fetch :ruby_version}/bin:$PATH"}
     }
@@ -43,16 +45,4 @@ namespace :deploy do
       execute "sv status #{fetch :runit_service_dir}"
     end
   end
-
-  task :symlink_shared do
-    on roles :all do
-      execute "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
-      
-      if fetch(:password_protected)
-        execute "ln -nfs #{shared_path}/.htaccess #{release_path}/.htaccess"
-      end
-    end
-  end
-
-  before  :updated, :symlink_shared
 end

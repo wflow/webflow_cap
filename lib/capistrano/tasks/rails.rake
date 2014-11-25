@@ -37,7 +37,7 @@ exec svlogd -tt ./main
       execute                 "chmod +x #{runit_dir}/run"
       execute                 "chmod +x #{runit_dir}/log/run"
       execute                 "ln -nfs #{runit_dir} #{fetch :runit_service_dir}"
-      invoke                  'htaccess:setup_reverse_proxy'
+      invoke                  'rails:setup_reverse_proxy'
     end
   end
   

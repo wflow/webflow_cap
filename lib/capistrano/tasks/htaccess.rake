@@ -16,18 +16,10 @@ Require valid-user
         upload! StringIO.new(htaccess_content), "#{shared_path}/.htaccess"
         execute "htpasswd -dbc #{shared_path}/.htpasswd #{fetch :htaccess_user} #{fetch :htaccess_pass}"
       end
+      
+      set :linked_files, fetch(:linked_files).push(".htaccess")
     end
   end
   
-  task :remove do
-    on roles :all do
-      if test("[ -e #{shared_path}/.htaccess ]")
-        execute "rm -f #{shared_path}/.htaccess"
-        execute "rm -f #{shared_path}/.htpasswd"
-        execute "rm -f #{current_path}/.htaccess"
-      end
-    end
-  end
-    
-  after 'deploy:updated', 'htaccess:create'
+  after 'deploy:started', 'htaccess:password_protection'
 end

@@ -13,6 +13,26 @@ namespace :rails do
     end
   end
   
+  task :setup_reverse_proxy do
+    on roles :all do
+      path = "#{fetch :home}/#{fetch :domain}/htdocs"
+
+      if test("[ -e #{path}/.htaccess ]")
+        info "reverse proxy configured @ #{path}/.htaccess"
+        next
+      end
+
+      htaccess = <<-EOF
+RewriteEngine On
+RewriteRule ^(.*)$ http://localhost:#{fetch :server_port}/$1 [P]
+
+    EOF
+      execute                 "mkdir -p #{path}"
+      upload! StringIO.new(htaccess),       "#{path}/.htaccess"
+      execute                 "chmod +r #{path}/.htaccess"
+    end
+  end
+
   task :setup_application_server do
     on roles :all do
       daemon_name = "rails-#{fetch :server_port}-#{fetch :domain}-#{fetch :application}"
@@ -45,28 +65,9 @@ exec svlogd -tt ./main
       execute                 "chmod +x #{runit_dir}/run"
       execute                 "chmod +x #{runit_dir}/log/run"
       execute                 "ln -nfs #{runit_dir} #{fetch :runit_service_dir}"
-      invoke                  'rails:setup_reverse_proxy'
     end
   end
   
-  task :setup_reverse_proxy do
-    on roles :all do
-      path = "#{fetch :home}/#{fetch :domain}/htdocs"
-
-      if test("[ -e #{path} ]")
-        info "reverse proxy configured @ #{path}/.htaccess"
-        next
-      end
-
-      htaccess = <<-EOF
-RewriteEngine On
-RewriteRule ^(.*)$ http://localhost:#{fetch :server_port}/$1 [P]
-    EOF
-      execute                 "mkdir -p #{path}"
-      upload! StringIO.new(htaccess),       "#{path}/.htaccess"
-      execute                 "chmod +r #{path}/.htaccess"      
-    end
-  end
-  
-  after   'deploy:published', 'rails:setup_application_server'
+  after   'deploy:published', :setup_application_server
+  after   :setup_application_server, :setup_reverse_proxy
 end

@@ -11,7 +11,6 @@ namespace :webflow do
       set :user, ask("Username", "f999999")
       set :domain, ask("Domain", "example.com")
       set :server, ask("Server", "server.example.com")
-      set :password_protect, ask("Password protected", false)
 
       @application = fetch(:application)
       @ruby_version = fetch(:ruby_version)
@@ -19,7 +18,6 @@ namespace :webflow do
       @user = fetch(:user)
       @domain = fetch(:domain)
       @server = fetch(:server)
-      @password_protect = fetch(:password_protect)
             
       envs = ENV['STAGES'] || 'staging,production'
     
@@ -37,7 +35,7 @@ namespace :webflow do
       entries += envs.split(',').map { |stage| {template: stage_rb, file: deploy_dir.join("#{stage}.rb")} }
     
       entries.each do |entry|
-        if test("[ -e #{entry[:file]} ]")
+        if File.exists?(entry[:file])
           warn "[skip] #{entry[:file]} already exists"
         else
           File.open(entry[:file], 'w+') do |f|

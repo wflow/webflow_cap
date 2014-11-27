@@ -18,7 +18,7 @@ namespace :load do
     set :linked_files, %w{}
     
     set :default_env, -> {
-      {'PATH' => "/docs/#{fetch :user}/.gem/ruby/#{fetch :ruby_version}/bin:/opt/ruby/#{fetch :ruby_version}/bin:$PATH"}
+      {'PATH' => "/docs/#{fetch :user}/#{fetch :domain}/#{fetch :application}/shared/bin:/opt/ruby/#{fetch :ruby_version}/bin:$PATH"}
     }
   end
 end

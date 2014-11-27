@@ -49,6 +49,7 @@ exec 2>&1
 export HOME=#{fetch :home}
 export PATH=#{fetch(:default_env)['PATH']}
 source $HOME/.bashrc
+source $HOME/#{fetch :domain}/etc/rubyrc
 cd #{fetch :deploy_to}/current
 exec bundle exec #{fetch :application_server} -p #{fetch :server_port} -e production 2>&1
     EOF

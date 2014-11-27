@@ -3,7 +3,7 @@ namespace :mysql do
     on roles :all do
       my_cnf = capture('cat ~/.my.cnf')
       config = {}
-      %w(development production test).each do |env|
+      %w(staging production).each do |env|
 
         my_cnf.match(/^user=(\w+)/)
         database_user = $1

@@ -13,10 +13,10 @@ Gem::Specification.new do |gem|
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.name          = "webflow_cap"
   gem.require_paths = ["lib"]
-  gem.version       = "0.0.9"
+  gem.version       = "0.1.0"
   
   # dependencies
   gem.add_dependency 'capistrano',         '~>3.2'
-  gem.add_dependency 'capistrano-rails'    '~>'
-  gem.add_dependency 'capistrano-bundler'  '~>'
+  gem.add_dependency 'capistrano-rails'
+  gem.add_dependency 'capistrano-bundler'
 end

@@ -12,15 +12,14 @@ The application server (which defaults to [passenger standalone](https://www.phu
 
 1. Add the following lines to your Gemfile:
 
-```
-gem 'passenger'
-
-group :development do
-  gem 'capistrano-rails', group: :development
-  gem 'webflow_cap'
-end
-```
-
+   ```
+   gem 'passenger'
+   
+   group :development do
+     gem 'capistrano-rails', group: :development
+     gem 'webflow_cap'
+   end
+  ```
 2. Execute `bundle install` to install these gems.
 3. Execute `bundle exec webflow_capify` which asks you some questions and installs capistrano templates with sane defaults to your project.
 

@@ -35,7 +35,7 @@ namespace :webflow do
       entries += envs.split(',').map { |stage| {template: stage_rb, file: deploy_dir.join("#{stage}.rb")} }
     
       entries.each do |entry|
-        if File.exists?(entry[:file])
+        if File.exists?(entry[:file]) && Question.new("Overwrite #{entry[:file]}?", 'y') != 'y'
           warn "[skip] #{entry[:file]} already exists"
         else
           File.open(entry[:file], 'w+') do |f|
@@ -47,7 +47,7 @@ namespace :webflow do
     
       execute "mkdir -p #{tasks_dir}"
 
-      if File.exists?('Capfile')
+      if File.exists?('Capfile') && Question.new("Overwrite Capfile?", 'y') != 'y'
         warn "[skip] Capfile already exists"
       else
         FileUtils.cp(capfile, 'Capfile')

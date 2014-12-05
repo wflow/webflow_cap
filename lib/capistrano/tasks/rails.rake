@@ -6,7 +6,7 @@ end
 
 namespace :rails do
   desc 'Show possible ruby versions on configured .webflow server'
-  task :versions do
+  task :ruby_versions do
     on roles :all do
       within '/opt/ruby' do
         execute(:ls)

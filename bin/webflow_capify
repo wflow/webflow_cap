@@ -1,0 +1,14 @@
+#!/bin/env ruby
+require 'capistrano/all'
+
+stages = "production"
+set :stage, :production
+role :app, %w{}
+
+require 'capistrano/setup'
+require 'capistrano/deploy'
+require 'capistrano/webflow/install'
+
+Dir.glob('capistrano/tasks/*.rake').each { |r| import r }
+
+Capistrano::Application.invoke("webflow:install")

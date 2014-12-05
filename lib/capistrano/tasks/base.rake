@@ -13,7 +13,7 @@ namespace :load do
 
     set :home,                  -> { "/docs/#{fetch :user}" }
     set :deploy_to,             -> { "/docs/#{fetch :user}/#{fetch :domain}/#{fetch :application}" }
-    set :server_port,           -> { 10000 + ((fetch :user)[3..6] + "0").to_i }
+    set :server_port,           -> { 10000 + ((fetch :user)[4..6] + "0").to_i }
     
     set :linked_files, %w{}
     

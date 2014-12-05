@@ -43,6 +43,9 @@ RewriteRule ^(.*)$ http://localhost:#{fetch :server_port}/$1 [P]
         next
       end
 
+      application_server = fetch(:application_server)
+      application_server + ' start' if application_server == 'passenger'
+
       daemon_script = <<-EOF
 #!/bin/bash -e
 exec 2>&1
@@ -51,7 +54,7 @@ export PATH=#{fetch(:default_env)['PATH']}
 source $HOME/.bashrc
 source $HOME/#{fetch :domain}/etc/rubyrc
 cd #{fetch :deploy_to}/current
-exec bundle exec #{fetch :application_server} -p #{fetch :server_port} -e #{fetch :stage} 2>&1
+exec bundle exec #{application_server} -p #{fetch :server_port} -e #{fetch :stage} 2>&1
     EOF
     
       log_script = <<-EOF

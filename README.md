@@ -1,5 +1,31 @@
 # webflow_cap
-    
+
+This gem is a plugin for [capistrano 3](http://capistranorb.com/) to make deployment of rails applications to [.webflow](http://www.webflow.de) servers easy.
+
+Applications that get deployed with the capistrano tasks are automatically configured and setup to run supervised.
+The database.yml is automatically created and configured to use the right connection settings.
+An application specific database will also be created.
+
+The application server (which defaults to [passenger standalone](https://www.phusionpassenger.com/#about)) will be started and supervised by [runit](http://smarden.org/runit/).
+
+## Usage
+
+1. Add the following lines to your Gemfile:
+
+```
+gem 'passenger'
+
+group :development do
+  gem 'capistrano-rails', group: :development
+  gem 'webflow_cap'
+end
+```
+
+2. Execute `bundle install` to install these gems.
+3. Execute `bundle exec webflow_capify` which asks you some questions and installs capistrano templates with sane defaults to your project.
+
+With these capistrano files in place all you need to do is execute `bundle exec cap production deploy` to spin up your rails application.
+
 ## License
 
 MIT; Copyright (c) 2014 Florian Aman, webflow GmbH

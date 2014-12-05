@@ -24,22 +24,26 @@ namespace :load do
 end
 
 namespace :deploy do
+  desc 'Start application'
   task :start do
     on roles :all do
       execute "sv start #{fetch :runit_service_dir}"
     end
   end
+  desc 'Stop application'
   task :stop do
     on roles :all do
       execute "sv stop #{fetch :runit_service_dir}"
     end
   end
+  desc 'Restart application'
   task :restart do
     on roles :all do
       execute "sv restart #{fetch :runit_service_dir}"
     end
   end
 
+  desc 'Show supervision status for application'
   task :status do
     on roles :all do
       execute "sv status #{fetch :runit_service_dir}"

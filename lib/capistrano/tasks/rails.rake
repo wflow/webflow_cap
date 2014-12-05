@@ -1,6 +1,6 @@
 namespace :load do
   task :defaults do
-    set :runit_service_dir, -> {"#{fetch :home}/etc/service/rails-#{fetch :server_port}-#{fetch :domain}-#{fetch :application}"}
+    set :runit_service_dir, -> {"#{fetch :home}/etc/service/rails-#{fetch :server_port}-#{fetch :domain}-#{fetch :application}-#{fetch :stage}"}
   end
 end
 
@@ -35,7 +35,7 @@ RewriteRule ^(.*)$ http://localhost:#{fetch :server_port}/$1 [P]
 
   task :setup_application_server do
     on roles :all do
-      daemon_name = "rails-#{fetch :server_port}-#{fetch :domain}-#{fetch :application}"
+      daemon_name = "rails-#{fetch :server_port}-#{fetch :domain}-#{fetch :application}-#{fetch :stage}"
       runit_dir = "#{fetch :home}/etc/sv/#{daemon_name}"
 
       if test("[ -e #{runit_dir} ]")

@@ -9,3 +9,5 @@ set :domain, "<%= @domain %>"
 
 # set the servername to the servername or ipaddress from webflow e.g. server.example.com or 192.168.0.1
 server "<%= @server %>", user: fetch(:user), roles: %w(:web :app :db), primary: true
+
+#set :server_port, <%= @server_port %> # please only change after you talk to webflow staff

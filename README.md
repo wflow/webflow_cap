@@ -24,6 +24,8 @@ The application server (which defaults to [passenger standalone](https://www.phu
 3. Execute `bundle exec webflow_capify` which asks you some questions and installs capistrano templates with sane defaults to your project.
 4. With these capistrano files in place all you need to do is execute `bundle exec cap production deploy` to spin up your rails application.
 
+If you have any problems please contact us @[webflow](http://www.webflow.de)
+
 ## License
 
 MIT; Copyright (c) 2014 Florian Aman, webflow GmbH

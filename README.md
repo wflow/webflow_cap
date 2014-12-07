@@ -22,8 +22,7 @@ The application server (which defaults to [passenger standalone](https://www.phu
   ```
 2. Execute `bundle install` to install these gems.
 3. Execute `bundle exec webflow_capify` which asks you some questions and installs capistrano templates with sane defaults to your project.
-
-With these capistrano files in place all you need to do is execute `bundle exec cap production deploy` to spin up your rails application.
+4. With these capistrano files in place all you need to do is execute `bundle exec cap production deploy` to spin up your rails application.
 
 ## License
 

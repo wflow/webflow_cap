@@ -55,7 +55,8 @@ export PATH=#{fetch(:default_env)['PATH']}
 source $HOME/.bashrc
 source $HOME/#{fetch :domain}/etc/rubyrc
 cd #{fetch :deploy_to}/current
-exec bundle exec #{application_server} -p #{fetch :server_port} -e #{fetch :stage} 2>&1
+sleep 5 # to make restarts work with passenger watchdog processes
+exec #{application_server} -p #{fetch :server_port} -e #{fetch :stage} 2>&1
     EOF
     
       log_script = <<-EOF

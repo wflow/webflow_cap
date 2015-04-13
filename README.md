@@ -16,7 +16,7 @@ The application server (which defaults to [passenger standalone](https://www.phu
    gem 'passenger'
    
    group :development do
-     gem 'capistrano-rails', group: :development
+     gem 'capistrano-rails'
      gem 'webflow_cap'
    end
   ```

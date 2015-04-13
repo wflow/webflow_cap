@@ -49,4 +49,6 @@ namespace :deploy do
       execute "sv status #{fetch :runit_service_dir}"
     end
   end
+  
+  after :publishing, :restart
 end

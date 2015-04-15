@@ -26,6 +26,8 @@ namespace :webflow do
     @domain = fetch(:domain)
     @server = fetch(:server)
     @server_port = fetch(:server_port)
+    
+    @domain = @domain.start_with?('www.') ? @domain : "www.#{@domain}"
           
     envs = ENV['STAGES'] || 'staging,production'
   

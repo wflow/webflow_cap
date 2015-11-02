@@ -1,7 +1,7 @@
 namespace :load do
   task :defaults do
     # variables with default values
-    set :application_server,    fetch(:application_server, "passenger")
+    set :application_server,    fetch(:application_server, "puma")
     set :branch,                fetch(:branch, "master")
     set :scm,                   fetch(:scm, :git)
     set :ruby_version,          fetch(:ruby_version, "2.1")

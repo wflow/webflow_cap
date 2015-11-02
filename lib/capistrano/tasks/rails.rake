@@ -51,11 +51,10 @@ RewriteRule ^(.*)$ http://localhost:#{fetch :server_port}/$1 [P]
 #!/bin/bash -e
 exec 2>&1
 export HOME=#{fetch :home}
-export PATH=#{fetch(:default_env)['PATH']}
 source $HOME/.bashrc
 source $HOME/#{fetch :domain}/etc/rubyrc
+export PATH=#{fetch(:default_env)['PATH']}
 cd #{fetch :deploy_to}/current
-sleep 5 # to make restarts work with passenger watchdog processes
 exec #{application_server} -p #{fetch :server_port} -e #{fetch :stage} 2>&1
     EOF
     

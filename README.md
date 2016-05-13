@@ -13,7 +13,7 @@ The application server (which defaults to [passenger standalone](https://www.phu
 1. Add the following lines to your Gemfile:
 
    ```ruby
-   gem 'passenger'
+   gem 'puma'
    
    group :development do
      gem 'capistrano-rails'

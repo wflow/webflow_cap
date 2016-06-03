@@ -28,5 +28,5 @@ namespace :htaccess do
     end
   end
   
-  after   'deploy:finished', :password_protection
+  after 'deploy:finished', 'htaccess:password_protection'
 end

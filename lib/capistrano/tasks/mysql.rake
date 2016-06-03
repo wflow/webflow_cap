@@ -31,5 +31,5 @@ namespace :mysql do
     end
   end
   
-  after   'deploy:started',       'mysql:setup_database_and_config'
+  after 'deploy:started', 'mysql:setup_database_and_config'
 end

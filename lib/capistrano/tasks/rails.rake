@@ -70,6 +70,6 @@ exec svlogd -tt ./main
     end
   end
   
-  after   'deploy:published', :setup_application_server
-  after   :setup_application_server, :setup_reverse_proxy
+  after 'deploy:published', 'rails:setup_application_server'
+  after 'rails:setup_application_server', 'rails:setup_reverse_proxy'
 end
